@@ -30,11 +30,12 @@ public class DependencyInjectionTest {
 
     @Test
     void testWithDI() {
-        Foo foo = context.getBean(Foo.class);
+        Foo foo = context.getBean("fooFirst", Foo.class);
         Bar bar = context.getBean(Bar.class);
         FooBar fooBar = context.getBean(FooBar.class);
 
-        Assertions.assertSame(foo, fooBar.getFoo());
+        // Not same because now Foo for FooBar is FooSecond using @Qualifier.
+        Assertions.assertNotSame(foo, fooBar.getFoo());
         Assertions.assertSame(bar, fooBar.getBar());
     }
 
