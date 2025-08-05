@@ -11,15 +11,15 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-public class IdGeneratorBeanPostProcessor implements BeanPostProcessor, Ordered {
+public class PrefixIdGeneratorBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        log.info("Id Generator Processor For Bean {}", beanName);
+        log.info("Prefix Id Generator Processor For Bean {}", beanName);
         if (bean instanceof IdAware) {
         log.info("Set Id Generator For Bean {}", beanName);
             IdAware idAware = (IdAware) bean;
-            idAware.setId(UUID.randomUUID().toString());
+            idAware.setId("PZN-" + idAware.getId());
         }
 
         return bean;
@@ -27,6 +27,6 @@ public class IdGeneratorBeanPostProcessor implements BeanPostProcessor, Ordered 
 
     @Override
     public int getOrder() {
-        return 1;
+        return 2;
     }
 }
